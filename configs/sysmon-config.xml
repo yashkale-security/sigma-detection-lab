@@ -1,0 +1,37 @@
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="Purple Pipeline">
+      <ProcessCreate onmatch="include">
+        <Image condition="is">C:\Windows\System32\wbem\WmiPrvSE.exe</Image>
+        <Image condition="is">C:\Windows\System32\rundll32.exe</Image>
+        <Image condition="is">C:\Windows\System32\regsvr32.exe</Image>
+        <Image condition="is">C:\Windows\System32\mshta.exe</Image>
+        <Image condition="is">C:\Windows\System32\certutil.exe</Image>
+        <Image condition="is">C:\Windows\System32\powershell.exe</Image>
+        <Image condition="is">C:\Windows\System32\cmd.exe</Image>
+        <Image condition="is">C:\Windows\System32\wscript.exe</Image>
+        <Image condition="is">C:\Windows\System32\cscript.exe</Image>
+      </ProcessCreate>
+      <NetworkConnect onmatch="include">
+        <DestinationPort condition="is">80</DestinationPort>
+        <DestinationPort condition="is">443</DestinationPort>
+        <DestinationPort condition="is">8080</DestinationPort>
+        <DestinationPort condition="is">4444</DestinationPort>
+      </NetworkConnect>
+      <CreateRemoteThread onmatch="include">
+        <TargetImage condition="is">C:\Windows\System32\lsass.exe</TargetImage>
+      </CreateRemoteThread>
+      <ProcessAccess onmatch="include">
+        <TargetImage condition="is">C:\Windows\System32\lsass.exe</TargetImage>
+        <GrantedAccess condition="bitmask">0x1fffff</GrantedAccess>
+      </ProcessAccess>
+      <FileCreate onmatch="include">
+        <TargetFilename condition="begin with">C:\Users\</TargetFilename>
+        <TargetFilename condition="end with">.exe</TargetFilename>
+      </FileCreate>
+      <RegistryEvent onmatch="include">
+        <TargetObject condition="contains">Run</TargetObject>
+      </RegistryEvent>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

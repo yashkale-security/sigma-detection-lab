@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Purple Pipeline Configuration",
+  "type": "object",
+  "required": ["lab", "atomic", "telemetry", "detection", "evaluation"],
+  "properties": {
+    "lab": {
+      "type": "object",
+      "required": ["provider", "vms"],
+      "properties": {
+        "provider": {"type": "string", "enum": ["virtualbox", "vmware", "libvirt", "aws", "azure"]},
+        "vms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "ip", "os", "credentials"],
+            "properties": {
+              "name": {"type": "string"},
+              "ip": {"type": "string"},
+              "os": {"type": "string", "enum": ["windows10", "windows11", "windows2019", "windows2022", "ubuntu20", "ubuntu22"]},
+              "credentials": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                }
+              },
+              "snapshot_clean": {"type": "string"},
+              "snapshot_telemetry": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "atomic": {
+      "type": "object",
+      "required": ["repo_path", "techniques"],
+      "properties": {
+        "repo_path": {"type": "string"},
+        "techniques": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^T\\d{4}(\\.\\d{3})?$"}
+        },
+        "execution_args": {"type": "object"}
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "required": ["collectors", "output_dir"],
+      "properties": {
+        "collectors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "config"],
+            "properties": {
+              "type": {"type": "string", "enum": ["sysmon", "windows_event", "edr_json", "zeek", "auditd", "cloudtrail"]},
+              "config": {"type": "object"}
+            }
+          }
+        },
+        "output_dir": {"type": "string"},
+        "retention_days": {"type": "integer", "default": 30}
+      }
+    },
+    "detection": {
+      "type": "object",
+      "required": ["output_dir", "rule_template"],
+      "properties": {
+        "output_dir": {"type": "string"},
+        "rule_template": {"type": "string"},
+        "min_confidence": {"type": "string", "enum": ["high", "low"]},
+        "false_positive_checks": {"type": "boolean", "default": true}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "required": ["rules_dir", "telemetry_dir", "output_dir"],
+      "properties": {
+        "rules_dir": {"type": "string"},
+        "telemetry_dir": {"type": "string"},
+        "output_dir": {"type": "string"},
+        "sigma_backend": {"type": "string", "enum": ["sigmac", "pysigma"]}
+      }
+    }
+  }
+}

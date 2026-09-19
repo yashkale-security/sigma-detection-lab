@@ -1,0 +1,8 @@
+pyyaml>=6.0
+jinja2>=3.1
+paramiko>=3.0
+tqdm>=4.65
+requests>=2.31
+python-evtx>=0.8
+sigma-cli>=0.20
+pysigma>=0.18
