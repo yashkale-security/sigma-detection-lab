@@ -1,0 +1,40 @@
+title: Detect Command and Scripting Interpreter: PowerShell (T1059.001)
+id: t1059.001_a2b3c4d5e6f7890123456789abcdef0123
+status: test
+description: Detection for PowerShell execution based on observed telemetry from Atomic test a2b3c4d5-e6f7-8901-2345-6789abcdef0123
+references:
+  - https://attack.mitre.org/techniques/T1059.001/
+author: Purple Pipeline Auto-Drafter
+date: 2026-10-06
+modified: 2026-10-06
+tags:
+  - attack.execution
+  - attack.t1059_001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    Image|endswith:
+      - powershell.exe
+      - pwsh.exe
+    CommandLine|contains:
+      - -EncodedCommand
+      - -ExecutionPolicy Bypass
+      - -NoProfile
+      - -WindowStyle Hidden
+      - Invoke-Expression
+      - DownloadString
+      - IEX
+  condition: selection
+falsepositives:
+  - Legitimate administrative PowerShell scripts
+  - Automated deployment scripts using PowerShell
+  - Software installation via PowerShell
+level: medium
+confidence: high
+fields_used:
+  - process_name
+  - command_line
+  - parent_process_name
+fields_assumed: []

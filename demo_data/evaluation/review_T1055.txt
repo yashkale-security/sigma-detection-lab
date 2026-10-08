@@ -1,0 +1,11 @@
+=== REVIEW: T1055 / f1e2d3c4b5a69876543210fedcba9876 ===
+Rule: data/rules/T1055_f1e2d3c4b5a69876543210fedcba9876.yml
+Fired: False
+Missing fields:
+  - GrantedAccess (required by rule but absent in all 6 events)
+  - TargetImage (required by rule but absent in all 6 events)
+Suggestions:
+  - Consider broadening rule to use fields actually present in telemetry
+  - Available fields in telemetry: process_name, command_line, image_path, parent_process_name, event_type
+  - Observed event types not referenced in rule: process_create, image_load, process_terminate
+Confidence adjustment: lower

@@ -1,0 +1,12 @@
+=== REVIEW: T1105 / 11111111111111111111111111111111 ===
+Rule: data/rules/T1105_11111111111111111111111111111111.yml
+Fired: False
+Missing fields:
+  - network_dst_ip (required by rule but absent in all 4 events)
+  - network_dst_port (required by rule but absent in all 4 events)
+Suggestions:
+  - Consider broadening rule to use fields actually present in telemetry
+  - Available fields in telemetry: process_name, command_line, image_path, parent_process_name
+  - Observed event types not referenced in rule: process_create
+  - No network telemetry collected - deploy Zeek or enable Sysmon NetworkConnect (Event ID 3)
+Confidence adjustment: insufficient_data

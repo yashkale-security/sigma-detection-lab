@@ -1,0 +1,11 @@
+{
+  "rule_file": "data/rules/T1055_f1e2d3c4b5a69876543210fedcba9876.yml",
+  "technique_id": "T1055",
+  "test_guid": "f1e2d3c4b5a69876543210fedcba9876",
+  "telemetry_file": "data/telemetry/c3d4e5f6/sysmon_c3d4e5f6.evtx",
+  "total_events": 6,
+  "matched_events": 0,
+  "match_details": [],
+  "detection_rate": 0.0,
+  "passed": false
+}

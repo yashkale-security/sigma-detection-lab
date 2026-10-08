@@ -1,0 +1,41 @@
+title: Detect OS Credential Dumping: LSASS Memory (T1003.001)
+id: t1003.001_e4f5a6b7c8d90123456789abcdef0123
+status: test
+description: Detection for OS Credential Dumping: LSASS Memory based on observed telemetry from Atomic test e4f5a6b7-c8d9-0123-4567-89abcdef0123
+references:
+  - https://attack.mitre.org/techniques/T1003.001/
+author: Purple Pipeline Auto-Drafter
+date: 2026-10-06
+modified: 2026-10-06
+tags:
+  - attack.credential_access
+  - attack.t1003_001
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    Image|endswith:
+      - werfault.exe
+      - comsvcs.dll
+      - rundll32.exe
+    CommandLine|contains:
+      - -m 1 -p
+      - MiniDump
+      - lsass.dmp
+    TargetFilename|contains:
+      - lsass.dmp
+  condition: selection
+falsepositives:
+  - Legitimate crash dump generation by Windows Error Reporting (werfault.exe)
+  - Legitimate use of comsvcs.dll for debugging
+  - Administrator creating memory dumps for troubleshooting
+level: medium
+confidence: low
+fields_used:
+  - process_name
+  - command_line
+  - target_path
+  - parent_process_name
+fields_assumed:
+  - network_dst_ip
